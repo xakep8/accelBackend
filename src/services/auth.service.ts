@@ -23,7 +23,6 @@ const loginUserWithEmailAndPassword = async (
     'email',
     'name',
     'password',
-    'role',
     'isEmailVerified',
     'createdAt',
     'updatedAt'

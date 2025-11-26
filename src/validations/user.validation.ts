@@ -1,4 +1,3 @@
-import { Role } from '@prisma/client';
 import Joi from 'joi';
 import { password } from './custom.validation';
 
@@ -7,14 +6,12 @@ const createUser = {
     email: Joi.string().required().email(),
     password: Joi.string().required().custom(password),
     name: Joi.string().required(),
-    role: Joi.string().required().valid(Role.USER, Role.ADMIN)
   })
 };
 
 const getUsers = {
   query: Joi.object().keys({
     name: Joi.string(),
-    role: Joi.string(),
     sortBy: Joi.string(),
     limit: Joi.number().integer(),
     page: Joi.number().integer()
