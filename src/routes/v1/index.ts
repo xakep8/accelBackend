@@ -1,28 +1,33 @@
-import express from 'express';
-import authRoute from './auth.route';
-import userRoute from './user.route';
-import docsRoute from './docs.route';
-import config from '../../config/config';
+import express from "express";
+import authRoute from "./auth.route";
+import userRoute from "./user.route";
+import docsRoute from "./docs.route";
+import config from "../../config/config";
+import todoRoute from "./todo.route";
 
 const router = express.Router();
 
 const defaultRoutes = [
   {
-    path: '/auth',
-    route: authRoute
+    path: "/auth",
+    route: authRoute,
   },
   {
-    path: '/users',
-    route: userRoute
-  }
+    path: "/users",
+    route: userRoute,
+  },
+  {
+    path: "/todo",
+    route: todoRoute,
+  },
 ];
 
 const devRoutes = [
   // routes available only in development mode
   {
-    path: '/docs',
-    route: docsRoute
-  }
+    path: "/docs",
+    route: docsRoute,
+  },
 ];
 
 defaultRoutes.forEach((route) => {
@@ -30,7 +35,7 @@ defaultRoutes.forEach((route) => {
 });
 
 /* istanbul ignore next */
-if (config.env === 'development') {
+if (config.env === "development") {
   devRoutes.forEach((route) => {
     router.use(route.path, route.route);
   });

@@ -15,21 +15,21 @@ const getTodos = catchAsync(async (req, res) => {
 });
 
 const getTodo = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  const todo = await todoService.getTodo(Number(id));
+  const { todoId } = req.params;
+  const todo = await todoService.getTodo(Number(todoId));
   res.status(200).json(todo);
 });
 
 const updateTodo = catchAsync(async (req, res) => {
-  const { id } = req.params;
+  const { todoId } = req.params;
   const data = req.body;
-  const updatedTodo = await todoService.updateTodo(Number(id), data);
+  const updatedTodo = await todoService.updateTodo(Number(todoId), data);
   res.status(200).json(updatedTodo);
 });
 
 const deleteTodo = catchAsync(async (req, res) => {
-  const { id } = req.params;
-  await todoService.deleteTodo(Number(id));
+  const { todoId } = req.params;
+  await todoService.deleteTodo(Number(todoId));
   res.status(204).send();
 });
 
