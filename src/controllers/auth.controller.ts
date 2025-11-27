@@ -10,8 +10,8 @@ import exclude from "../utils/exclude";
 import { User } from "@prisma/client";
 
 const register = catchAsync(async (req, res) => {
-  const { email, password } = req.body;
-  const user = await userService.createUser(email, password);
+  const { name, email, password } = req.body;
+  const user = await userService.createUser(email, password, name);
   const userWithoutPassword = exclude(user, [
     "password",
     "createdAt",
