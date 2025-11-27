@@ -69,6 +69,12 @@ const isFirstLogin = catchAsync(async (req, res) => {
   res.send({ firstLogin });
 });
 
+const completeOnboarding = catchAsync(async (req, res) => {
+  const user = req.user as User;
+  await userService.updateUserById(user.id, { isFirstLogin: false });
+  res.status(httpStatus.NO_CONTENT).send();
+});
+
 export default {
   register,
   login,
@@ -79,4 +85,5 @@ export default {
   sendVerificationEmail,
   verifyEmail,
   isFirstLogin,
+  completeOnboarding,
 };

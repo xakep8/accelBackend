@@ -39,6 +39,7 @@ router.post(
   authController.verifyEmail
 );
 router.get("/is-first-login", auth(), authController.isFirstLogin);
+router.post("/complete-onboarding", auth(), authController.completeOnboarding);
 
 export default router;
 
