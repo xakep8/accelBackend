@@ -1,13 +1,22 @@
-import httpStatus from 'http-status';
-import catchAsync from '../utils/catchAsync';
-import { authService, userService, tokenService, emailService } from '../services';
-import exclude from '../utils/exclude';
-import { User } from '@prisma/client';
+import httpStatus from "http-status";
+import catchAsync from "../utils/catchAsync";
+import {
+  authService,
+  userService,
+  tokenService,
+  emailService,
+} from "../services";
+import exclude from "../utils/exclude";
+import { User } from "@prisma/client";
 
 const register = catchAsync(async (req, res) => {
   const { email, password } = req.body;
   const user = await userService.createUser(email, password);
-  const userWithoutPassword = exclude(user, ['password', 'createdAt', 'updatedAt']);
+  const userWithoutPassword = exclude(user, [
+    "password",
+    "createdAt",
+    "updatedAt",
+  ]);
   const tokens = await tokenService.generateAuthTokens(user);
   res.status(httpStatus.CREATED).send({ user: userWithoutPassword, tokens });
 });
@@ -30,7 +39,9 @@ const refreshTokens = catchAsync(async (req, res) => {
 });
 
 const forgotPassword = catchAsync(async (req, res) => {
-  const resetPasswordToken = await tokenService.generateResetPasswordToken(req.body.email);
+  const resetPasswordToken = await tokenService.generateResetPasswordToken(
+    req.body.email
+  );
   await emailService.sendResetPasswordEmail(req.body.email, resetPasswordToken);
   res.status(httpStatus.NO_CONTENT).send();
 });
@@ -52,6 +63,12 @@ const verifyEmail = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const isFirstLogin = catchAsync(async (req, res) => {
+  const user = req.user as User;
+  const firstLogin = await authService.checkFirstLogin(user);
+  res.send({ firstLogin });
+});
+
 export default {
   register,
   login,
@@ -60,5 +77,6 @@ export default {
   forgotPassword,
   resetPassword,
   sendVerificationEmail,
-  verifyEmail
+  verifyEmail,
+  isFirstLogin,
 };
