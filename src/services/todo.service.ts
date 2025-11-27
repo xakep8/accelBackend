@@ -1,15 +1,18 @@
 import prisma from "../client";
+import { Status } from "@prisma/client";
 
 const createTodo = async (
   userId: number,
   title: string,
-  description: string
+  description: string,
+  status?: Status
 ) => {
   return await prisma.todo.create({
     data: {
       title,
       description,
       userId,
+      status,
     },
   });
 };
