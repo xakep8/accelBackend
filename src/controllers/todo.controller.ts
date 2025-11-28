@@ -5,11 +5,12 @@ import exclude from "../utils/exclude";
 
 const createTodo = catchAsync(async (req, res) => {
   const user = req.user as User;
-  const { title, description, status } = req.body;
+  const { title, description, dueDate, status } = req.body;
   const todo = await todoService.createTodo(
     user.id,
     title,
     description,
+    dueDate,
     status
   );
   res.status(201).json(exclude(todo, ["createdAt", "updatedAt", "userId"]));

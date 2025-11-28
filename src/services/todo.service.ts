@@ -5,6 +5,7 @@ const createTodo = async (
   userId: number,
   title: string,
   description: string,
+  dueDate?: Date,
   status?: Status
 ) => {
   return await prisma.todo.create({
@@ -13,6 +14,7 @@ const createTodo = async (
       description,
       userId,
       status,
+      dueDate,
     },
   });
 };
